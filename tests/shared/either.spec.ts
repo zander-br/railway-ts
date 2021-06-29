@@ -28,4 +28,10 @@ describe('Either', () => {
       value => expect(value).toEqual(5),
     );
   });
+
+  it('should getOrElse return default value for left', () => {
+    const result = Either.left({ kind: 'error1' });
+
+    expect(result.getOrElse(0)).toEqual(0);
+  });
 });
