@@ -7,4 +7,11 @@ describe('Either', () => {
     expect(result.isLeft()).toBeTruthy();
     expect(result.isRight()).toBeFalsy();
   });
+
+  it('should return isRight equal to true for a right value', () => {
+    const result = Either.right(5);
+
+    expect(result.isRight()).toBeTruthy();
+    expect(result.isLeft()).toBeFalsy();
+  });
 });
