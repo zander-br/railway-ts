@@ -31,7 +31,11 @@ describe('Either', () => {
 
   it('should getOrElse return default value for left', () => {
     const result = Either.left({ kind: 'error1' });
-
     expect(result.getOrElse(0)).toEqual(0);
+  });
+
+  it('should getOrElse return a right value for right', () => {
+    const result = Either.right(5);
+    expect(result.getOrElse(0)).toEqual(5);
   });
 });
