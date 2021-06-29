@@ -1,5 +1,29 @@
 import { Either } from '@/shared/either';
 
+interface ApiFailure {
+  kind: 'ApiFailure';
+  statusCode: number;
+}
+
+interface UnexpectedFailure {
+  kind: 'UnexpectedFailure';
+  error: Error;
+}
+
+interface AnonymousUserFailure {
+  kind: 'AnonymousUserFailure';
+}
+
+type ProcessFailure = ApiFailure | UnexpectedFailure | AnonymousUserFailure;
+
+function createApiFailure(code: number): Either<ProcessFailure, number> {
+  return Either.right(code);
+}
+
+function fail(message: string | unknown) {
+  return message;
+}
+
 describe('Either', () => {
   it('should return isleft equal to true for a left value', () => {
     const result = Either.left({ kind: 'error' });
@@ -37,5 +61,14 @@ describe('Either', () => {
   it('should getOrElse return a right value for right', () => {
     const result = Either.right(5);
     expect(result.getOrElse(0)).toEqual(5);
+  });
+
+  it('should return fail mapped value for a left initial value', () => {
+    const result: Either<ProcessFailure, number> = createApiFailure(404);
+    const mappedResult = result.map(value => value * 2);
+    mappedResult.fold(
+      error => expect(error.kind).toEqual('ApiFailure'),
+      () => fail('should be error'),
+    );
   });
 });
