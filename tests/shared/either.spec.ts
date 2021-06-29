@@ -20,4 +20,12 @@ describe('Either', () => {
       () => fail('should be error'),
     );
   });
+
+  it('should return expected right for a right value', () => {
+    const result = Either.right(5);
+    result.fold(
+      error => fail(error),
+      value => expect(value).toEqual(5),
+    );
+  });
 });
