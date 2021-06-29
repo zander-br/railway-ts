@@ -84,10 +84,18 @@ describe('Either', () => {
   it('should return first error after flatmap for a left initial value', () => {
     const result: Either<ProcessFailure, number> = createApiFailure(404);
     const mappedResult = result.flatMap(value => Either.right(value * 2));
-
     mappedResult.fold(
       error => expect(error.kind).toEqual('ApiFailure'),
       () => fail('should be error'),
+    );
+  });
+
+  it('should return success mapped value after flatmap for a initial valid value', () => {
+    const result = Either.right(5);
+    const mappedResult = result.flatMap(value => Either.right(value * 2));
+    mappedResult.fold(
+      error => fail(error),
+      value => expect(value).toEqual(10),
     );
   });
 });
