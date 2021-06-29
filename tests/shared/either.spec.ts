@@ -71,4 +71,13 @@ describe('Either', () => {
       () => fail('should be error'),
     );
   });
+
+  it('should return success mapped value for a initial valid value', () => {
+    const result = Either.right(5);
+    const mappedResult = result.map(value => value * 2);
+    mappedResult.fold(
+      error => fail(error),
+      value => expect(value).toEqual(10),
+    );
+  });
 });
